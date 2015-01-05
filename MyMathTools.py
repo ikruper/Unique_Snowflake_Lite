@@ -32,14 +32,15 @@ __all__ = [
 
 
 def main():
-    values = 10,15,20
+    values = 10, 20, 32
 #    printStuff(get_prime_factors_test(10))
 #    printStuff(get_all_prime_factors_test(values))
-    printStuff(get_binary_factors((10,15)))
+
 #    for _ in get_all_factors(10):
 #        print _
 #    printStuff(get_all_factors_test((5,2)))
-    
+    printStuff(get_common_prime_factors(*values))
+
 @decorator
 def makeInt(f):
     """Forces the function to return an int"""
@@ -69,24 +70,41 @@ def get_gcf(values):
     """Returns the greatest common factor of the numbers given."""
     return max(get_common_factors(values))
 
-def get_factors(n):
+def get_factors(*nums):
     """Returns all factors of n excluding n."""
-    assert isinstance(n,int)
-    possible_factors = (num for num in xrange(2,root_(n)))
-    yield 1
-    try:
-        while possible_factors:
-            p = possible_factors.next()
-            q,r = divmod(n, p)        
-            try:
-                p_not_a_factor = r != 0
-                assert p_not_a_factor
-            except AssertionError:
-                yield p
-                yield q
-    finally:
-        yield n
+    
+    def factor_(n):    
+        assert isinstance(n,int)
+        possible_factors = (num for num in xrange(2,root_(n)))
+        yield 1
+        try:
+            while possible_factors:
+                p = possible_factors.next()
+                q,r = divmod(n, p)        
+                try:
+                    p_not_a_factor = r != 0
+                    assert p_not_a_factor
+                except AssertionError:
+                    yield p
+                    yield q
+        finally:
+            yield n
+    return combined_gen([factor_(num) for num in nums])    
 
+def get_common_factors(*nums):
+    factors = get_factors(*nums)
+    low_num = min(nums)        
+    return (factor for factor in factors 
+            if not sum([num % factor for num in nums]))
+                
+
+def get_prime_factors(*nums):
+    return (factor for factor in get_factors(*nums) if is_prime(factor))
+    
+def get_common_prime_factors(*nums):
+    return (factor for factor in get_common_factors(*nums) 
+                                        if is_prime(factor)
+            )
     
 @decorator
 def prime(f):

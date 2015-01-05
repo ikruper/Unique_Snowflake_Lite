@@ -18,8 +18,7 @@ __all__ = [
             "memo",
             "combined_gen",
             "get_histogram",
-            "n_ary",
-            "make_binary"
+            "n_ary"
 
 ]
 
@@ -107,11 +106,4 @@ def n_ary(f):
         return x if not args else f(x, n_ary_f(*args))
     return n_ary_f
     
-    
-@decorator
-def make_binary(f):
-    def wrapper(*args, **kw):
-        res = f(*args, **kw)
-        return res,res
-    return wrapper
-    
+
