@@ -34,7 +34,7 @@ __all__ = [
 
 def main():
     values = 32,24
-    printStuff(get_multiples_of(*values, stop_value=1000, common=True))
+#    printStuff(get_multiples_of(*values, stop_value=1000, common=True))
     
 #    printStuff(get_prime_factors_test(10))
 #    printStuff(get_all_prime_factors_test(values))
@@ -43,6 +43,12 @@ def main():
 #        print _
 #    printStuff(get_all_factors_test((5,2)))
 #    printStuff(get_common_prime_factors(*values))
+#    printStuff(get_factors(*values))
+#    printStuff(get_common_factors(*values))
+    res = get_factors(*values, common=True)
+    printStuff(res)
+    print res
+    
 
 @decorator
 def makeInt(f):
@@ -94,7 +100,9 @@ def get_factors(*nums, **kw):
             yield n
     factors = combined_gen([factor_(num) for num in nums])
     common_factors = (factor for factor in factors 
-                        if is_divisible(factor, nums))
+                        if is_common_factor(factor, nums))
+    
+    return common_factors if common else factors
 
 def get_common_factors(*nums):
     factors = get_factors(*nums)
@@ -176,16 +184,21 @@ def get_multiples_of(*nums, **kw):
         multiples = combined_gen([_get_multiples_(num, **kw) 
                                            for num in nums])
         common_multiples = (multiple for multiple in multiples
-                        if is_divisible(multiple, nums))
+                        if is_common_multiple(multiple, nums))
                             
         return common_multiples if common else multiples
         
 
-def is_divisible(num, nums):
+def is_common_multiple(num, nums):
     return True if sum(map(lambda x: num % x, nums)) == 0 else False
 
+def is_common_factor(num, nums):
+    return True if sum(map(lambda x: x % num, nums)) == 0 else False
+    
 def test():
-    assert is_divisible(30,(5,10,15))
+    assert is_common_multiple(30,(5,10,15))
+    assert is_common_factor(2,(32,24))
+    assert is_common_factor(1,(32,24))
 #def get_lcm()
     
             
