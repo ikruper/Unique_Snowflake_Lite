@@ -15,6 +15,7 @@ from MyDevTools.MyAnalysisTools import histogram
 from MyDevTools.MyPerformanceTools import *
 from MyDevTools.MyDebug import *
 import itertools
+import sys
 
 import math
 
@@ -33,13 +34,14 @@ __all__ = [
 
 def main():
     values = 10, 20, 32
+    printStuff(get_common_multiples_of(*values, stop_value=1000))
 #    printStuff(get_prime_factors_test(10))
 #    printStuff(get_all_prime_factors_test(values))
 
 #    for _ in get_all_factors(10):
 #        print _
 #    printStuff(get_all_factors_test((5,2)))
-    printStuff(get_common_prime_factors(*values))
+#    printStuff(get_common_prime_factors(*values))
 
 @decorator
 def makeInt(f):
@@ -126,8 +128,9 @@ def is_prime(n):
     n_is_evenly_divisible = 0 in quotients
     return False if n_is_evenly_divisible else True
     
-def get_common_multiples_of(args, stop_value=None):
+def get_common_multiples_of(*args, **kw):
     
+    stop_value = kw.get('stop_value')
     num_multiples = len(args)
     current_max = 0
     multiple_gens = [get_multiples_of(arg) for arg in args]
@@ -159,6 +162,9 @@ def get_multiples_of(n, stop_value=None):
             multiple = n * counter
             if stop_value != None and multiple >= stop_value: break
             yield n * counter
+
+#def get_lcm()
+    
             
 if __name__ == '__main__':
     main()
