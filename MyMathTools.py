@@ -34,7 +34,8 @@ __all__ = [
 
 def main():
     values = 32,24
-    printStuff(get_multiples_of(*values, stop_value=1000))
+    printStuff(get_multiples_of(*values, stop_value=1000, common=True))
+    
 #    printStuff(get_prime_factors_test(10))
 #    printStuff(get_all_prime_factors_test(values))
 
@@ -72,9 +73,9 @@ def get_gcf(values):
     """Returns the greatest common factor of the numbers given."""
     return max(get_common_factors(values))
 
-def get_factors(*nums):
+def get_factors(*nums, **kw):
     """Returns all factors of n excluding n."""
-    
+    common = kw.get('common',False)
     def factor_(n):    
         assert isinstance(n,int)
         possible_factors = (num for num in xrange(2,root_(n)))
@@ -91,7 +92,9 @@ def get_factors(*nums):
                     yield q
         finally:
             yield n
-    return combined_gen([factor_(num) for num in nums])    
+    factors = combined_gen([factor_(num) for num in nums])
+    common_factors = (factor for factor in factors 
+                        if is_divisible(factor, nums))
 
 def get_common_factors(*nums):
     factors = get_factors(*nums)
@@ -128,32 +131,38 @@ def is_prime(n):
     n_is_evenly_divisible = 0 in quotients
     return False if n_is_evenly_divisible else True
     
-def get_common_multiples_of(*args, **kw):
+def get_common_multiples_of(*nums, **kw):
     
-    stop_value = kw.get('stop_value')
-    num_multiples = len(args)
-    multiple_gens = [get_multiples_of(arg) for arg in args]
-    multiples = histogram()
-    common_multiples = []    
-    STOP = False
-    while True:        
-        if STOP == True: break
-        for gen in multiple_gens:
-            current_multiple = gen.next()
-            multiples.push(current_multiple)
-            is_common_multiple = multiples[current_multiple] == num_multiples
-            not_already_yielded = current_multiple not in common_multiples
-            if stop_value != None and current_multiple > stop_value: 
-                STOP = True                
-                break        
-            if is_common_multiple and not_already_yielded:
-                yield current_multiple
+    return (multiple for multiple in get_multiples_of(*nums, **kw)
+                    if not sum([num % multiple for num in nums]))
+    
+#    num_multiples = len(args)
+#    multiple_gens = [get_multiples_of(arg) for arg in args]
+#    multiples = histogram()
+#    common_multiples = []    
+#    STOP = False
+#    while True:        
+#        if STOP == True: break
+#        for gen in multiple_gens:
+#            current_multiple = gen.next()
+#            multiples.push(current_multiple)
+#            is_common_multiple = multiples[current_multiple] == num_multiples
+#            not_already_yielded = current_multiple not in common_multiples
+#            if stop_value != None and current_multiple > stop_value: 
+#                STOP = True                
+#                break        
+#            if is_common_multiple and not_already_yielded:
+#                yield current_multiple
 
 def get_n_ary_multiples(nums, stop=None):
     multiples = tuple([get_multiples_of(num, stop) for num in nums])
     return combine_gens(multiples)    
     
 def get_multiples_of(*nums, **kw):
+        
+        common = kw.get('common',False)
+        assert isinstance(common, bool)
+    
         def _get_multiples_(n, **kw):
             stop_value = kw.get('stop_value')
             counter = 0
@@ -163,11 +172,23 @@ def get_multiples_of(*nums, **kw):
                 multiple = n * counter
                 if stop_value != None and multiple >= stop_value: break
                 yield n * counter
-        return combined_gen([_get_multiples_(num, **kw) for num in nums])
+                
+        multiples = combined_gen([_get_multiples_(num, **kw) 
+                                           for num in nums])
+        common_multiples = (multiple for multiple in multiples
+                        if is_divisible(multiple, nums))
+                            
+        return common_multiples if common else multiples
+        
 
+def is_divisible(num, nums):
+    return True if sum(map(lambda x: num % x, nums)) == 0 else False
 
+def test():
+    assert is_divisible(30,(5,10,15))
 #def get_lcm()
     
             
 if __name__ == '__main__':
+    test()
     main()
