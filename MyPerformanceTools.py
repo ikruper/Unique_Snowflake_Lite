@@ -15,7 +15,11 @@ from MyDevTools.MyDecorator import decorator
 
 __all__ = [
 
-            "memo"
+            "memo",
+            "combined_gen",
+            "get_histogram",
+            "n_ary",
+            "make_binary"
 
 ]
 
@@ -102,3 +106,12 @@ def n_ary(f):
     def n_ary_f(x, *args):
         return x if not args else f(x, n_ary_f(*args))
     return n_ary_f
+    
+    
+@decorator
+def make_binary(f):
+    def wrapper(*args, **kw):
+        res = f(*args, **kw)
+        return res,res
+    return wrapper
+    

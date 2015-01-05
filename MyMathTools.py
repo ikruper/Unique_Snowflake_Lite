@@ -12,7 +12,7 @@ Created on Thu Jan 01 17:40:08 2015
 """
 from MyDevTools.MyDecorator import decorator
 from MyDevTools.MyAnalysisTools import histogram
-from MyDevTools.MyPerformanceTools import n_ary, combined_gen, memo
+from MyDevTools.MyPerformanceTools import *
 from MyDevTools.MyDebug import *
 import itertools
 
@@ -35,9 +35,11 @@ def main():
     values = 10,15,20
 #    printStuff(get_prime_factors_test(10))
 #    printStuff(get_all_prime_factors_test(values))
-#    printStuff(get_binary_factors(10,15))
-    for _ in get_all_factors(10):
-        print _
+    printStuff(get_binary_factors((10,15)))
+#    for _ in get_all_factors(10):
+#        print _
+#    printStuff(get_all_factors_test((5,2)))
+    
 @decorator
 def makeInt(f):
     """Forces the function to return an int"""
@@ -85,54 +87,6 @@ def get_factors(n):
     finally:
         yield n
 
-        
-    
-def get_all_factors(nums):
-    """Returns factors of all nums"""
-    try:
-        assert isinstance(nums, (list,tuple))
-        return combined_gen([get_factors(num) for num in nums])
-    except AssertionError:
-        num = nums
-        return get_factors(num)
-   
-def get_common_factors(nums):
-    """Returns common factors of nums."""
-    try:
-        assert isinstance(nums, (list,tuple))
-        return (num for num in get_all_factors(nums) if num <= min(nums)
-                                                if min(nums) % num == 0)
-    except AssertionError:
-        num = nums
-        return get_factors(num)
-
-def get_prime_factors(n):
-    """Returns prime factors of n"""
-    assert isinstance(n, int)
-    prime_factors = (factor for factor in get_factors(n) if is_prime(factor))
-    return prime_factors
-
-def get_all_prime_factors(nums):
-    """Returns all prime factors of nums"""
-    try:
-        assert isinstance(nums,(list,tuple))
-        return (factor for factor in get_all_factors(nums) 
-                                       if is_prime(factor)
-               )
-    except:
-        num = nums
-        return get_prime_factors(num)
-
-def get_common_prime_factors(nums):
-    try:
-        assert isinstance(nums, (list,tuple))
-        return (factor for factor in get_all_prime_factors 
-                                        if factor <= min(nums)
-                                        if min(nums) % factor == 0)
-    except AssertionError:
-        num = nums
-        return get_prime_factors(num)
-    
     
 @decorator
 def prime(f):
@@ -140,19 +94,6 @@ def prime(f):
         return (_ for _ in f(*args,**kw) if is_prime(_))
     return wrapper
 
-
-@prime
-def get_prime_factors_test(n):
-    return get_factors(n)
-
-@memo
-def get_binary_factors(n1,n2):
-    return (factor for factor in get_factors(n1) for factor in get_factors(n2))
-
-@n_ary
-@prime
-def get_all_prime_factors_test(n):
-    return get_factors(n)
     
 def is_prime(n):
     """Tests to see if n is prime"""
