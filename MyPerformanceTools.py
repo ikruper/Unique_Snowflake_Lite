@@ -22,6 +22,10 @@ __all__ = [
 
 ]
 
+def main():
+    stuff = [range(10) for x in range(10)]
+    print unpack(stuff)
+
 @decorator
 def memo(f):
     """Decorator that caches the return value for each call to f(args).
@@ -40,11 +44,6 @@ def memo(f):
     _f.cache = cache
     return _f
 
-
-def main():
-    a = (num for num in xrange(0,10,2))
-    b = (num for num in xrange(1,10,2))
-    print "combined_gen test: ", [item for item in combine_gens((a,b))]
 
 def combined_gen(args, non_redundant=True):
     cache = {}
@@ -105,5 +104,21 @@ def n_ary(f):
     def n_ary_f(x, *args):
         return x if not args else f(x, n_ary_f(*args))
     return n_ary_f
-    
 
+def unpack(items):
+    def _unpack(items):
+        try:
+    #        print items[0], len(items[0])
+            return (items if len(items[0]) <= 1 
+                else unpack(items[0][:1]) + unpack(items[0][1:]))
+        except TypeError:
+            return items
+    cache = []
+    for item in items:
+        cache += _unpack(item)
+    return cache
+        
+
+
+if __name__=='__main__':
+    main()

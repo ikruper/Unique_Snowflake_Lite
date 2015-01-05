@@ -33,8 +33,8 @@ __all__ = [
 
 
 def main():
-    values = 10, 20, 32
-    printStuff(get_common_multiples_of(*values, stop_value=1000))
+    values = 32,24
+    printStuff(get_multiples_of(*values, stop_value=1000))
 #    printStuff(get_prime_factors_test(10))
 #    printStuff(get_all_prime_factors_test(values))
 
@@ -132,7 +132,6 @@ def get_common_multiples_of(*args, **kw):
     
     stop_value = kw.get('stop_value')
     num_multiples = len(args)
-    current_max = 0
     multiple_gens = [get_multiples_of(arg) for arg in args]
     multiples = histogram()
     common_multiples = []    
@@ -154,14 +153,18 @@ def get_n_ary_multiples(nums, stop=None):
     multiples = tuple([get_multiples_of(num, stop) for num in nums])
     return combine_gens(multiples)    
     
-def get_multiples_of(n, stop_value=None):
-        counter = 0
-        while True:
-            counter += 1
-#            print "counter: {}, n*counter: {}".format(counter, n*counter)
-            multiple = n * counter
-            if stop_value != None and multiple >= stop_value: break
-            yield n * counter
+def get_multiples_of(*nums, **kw):
+        def _get_multiples_(n, **kw):
+            stop_value = kw.get('stop_value')
+            counter = 0
+            while True:
+                counter += 1
+    #            print "counter: {}, n*counter: {}".format(counter, n*counter)
+                multiple = n * counter
+                if stop_value != None and multiple >= stop_value: break
+                yield n * counter
+        return combined_gen([_get_multiples_(num, **kw) for num in nums])
+
 
 #def get_lcm()
     
