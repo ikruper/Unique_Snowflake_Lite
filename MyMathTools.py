@@ -43,6 +43,11 @@ def main():
 #    print res
     
 
+
+
+def not_recurse():
+    return
+
 @decorator
 def makeInt(f):
     """Forces the function to return an int"""
