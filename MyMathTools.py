@@ -42,6 +42,7 @@ def main():
 #    printStuff(res)
 #    print res
     
+<<<<<<< HEAD
 def recurse():
     recurse()
     #more_recursion!
@@ -49,8 +50,17 @@ def recurse():
 
 
 
+||||||| merged common ancestors
+
+
+
+=======
+>>>>>>> master
 def not_recurse():
     return
+    
+def a_wholeBunchOfNonsenseInThisCamelCase:
+    d'oh
 
 @decorator
 def makeInt(f):
