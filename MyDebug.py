@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
 r"""
+
+DEBUGGING TOOLSET
+=================
+
+:Author:  J. Tolton
+    
 This toolset is designed to aid in rapid debugging.
 
 Much inspiration was drawn from Peter Norvig's Udacity 
-class "Design of Computer Programs" 
+class "Design of Computer Programs"
+
 (www.https://www.udacity.com/course/viewer#!/c-cs212/)
 
 Created on Thu Jan 01 17:40:08 2015

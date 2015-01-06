@@ -47,6 +47,11 @@ def recurse():
     #more_recursion!
     #more_recursion!
 
+
+
+def not_recurse():
+    return
+
 @decorator
 def makeInt(f):
     """Forces the function to return an int"""
