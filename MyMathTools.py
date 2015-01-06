@@ -41,26 +41,6 @@ def main():
     print get_lcm(*values)
 #    printStuff(res)
 #    print res
-    
-<<<<<<< HEAD
-def recurse():
-    recurse()
-    #more_recursion!
-    #more_recursion!
-
-
-
-||||||| merged common ancestors
-
-
-
-=======
->>>>>>> master
-def not_recurse():
-    return
-    
-def a_wholeBunchOfNonsenseInThisCamelCase:
-    d'oh
 
 @decorator
 def makeInt(f):

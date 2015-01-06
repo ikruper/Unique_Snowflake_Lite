@@ -24,12 +24,20 @@ __all__ = [
 ]
 
 def main():
-    stuff = [range(10) for x in range(10)]
-    stuff2 = [3,(1,2,3),(22,45,20),[range(7)]]
-    print unpack(*stuff)
-    print unpack(*stuff2)
-    print unpack('five', 'four', 'three', (22,5,10))
-    print unpack('five', 'four', 'three', (22,5,10), string_safe=False)
+#    stuff = [range(10) for x in range(10)]
+#    stuff2 = [3,(1,2,3),(22,45,20),[range(7)]]
+#    print unpack(*stuff)
+#    print unpack(*stuff2)
+#    print unpack('five', 'four', 'three', (22,5,10))
+#    print unpack('five', 'four', 'three', (22,5,10), string_safe=False)
+    @sequence(stop=50)  
+    def say(x):
+        print x
+    for _ in say(50):
+        print _
+    
+    
+    
 
 @decorator
 def memo(f):
@@ -103,8 +111,16 @@ def unpack(*items, **kw):
         return cache
     except:
         return items
-            
 
-
+@decorator            
+def sequence(start=0, stop=False, step=1):
+    @decorator
+    def decorator(f):
+        def wrapper(*args, **kw):
+            return (term for term in (f(n) for n in count(start, step)
+                    if stop if n < stop))
+        return wrapper
+    return decorator
+    
 if __name__=='__main__':
     main()
