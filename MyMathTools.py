@@ -42,6 +42,8 @@ def main():
 #    printStuff(res)
 #    print res
     
+def recurse():
+    recurse()
 
 @decorator
 def makeInt(f):
