@@ -2,7 +2,7 @@
 """
 Created on Tue Jan 13 02:42:53 2015
 
-@author: J
+@author: Ian
 """
 
 import shelve
@@ -10,7 +10,7 @@ import os
 import shutil
 import cPickle
 
-
+#!!
 ycp_courses = shelve.open('ycp_classes.db')
 
 try:
