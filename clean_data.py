@@ -3,6 +3,7 @@
 Created on Mon Jan 12 22:36:21 2015
 
 @author: J
+@contributor: Ian
 
 clean data
 """
@@ -18,7 +19,7 @@ patterns.append('None')
 
 def test():
 
-    test_item = [
+#    test_item = [
                   '21490',
                   'Financing\xa0Ent\xa0Vent',
                   '3.00',
@@ -30,9 +31,9 @@ def test():
                   '25',
                   '15',
                   '10'
-                  ]
+#                  ]
 
-    test_result = [
+#    test_result = [
                   '21490',
                   'FinancingVent',
                   '3.00',
@@ -44,9 +45,9 @@ def test():
                   '25',
                   '15',
                   '10'
-                  ]
+#                  ]
 
-    result = clean_items(test_item)
+#    result = clean_items(test_item)
 #    print result
     
 test()

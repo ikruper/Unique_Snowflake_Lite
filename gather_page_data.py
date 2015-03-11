@@ -3,14 +3,15 @@
 Created on Tue Jan 13 00:42:08 2015
 
 @author: J
+@contributor: Ian
 
 
 """
-from MyDevTools.scrape import get_soup, scrape_page
+from clean_data import get_soup, scrape_page, pretty_courses
 import urllib
 import shelve
-from MyDevTools.MyDebug import timeIt
-from MyDevTools.MyPerformanceTools import memo
+#from MyDevTools.MyDebug import timeIt
+#from MyDevTools.MyPerformanceTools import memo
 import itertools
 
 def process_url(url):
@@ -18,7 +19,6 @@ def process_url(url):
     terms = [term.get('value') for term in soup.find_all('option')]
     return terms
 
-@timeIt()
 def main():
     url = r'http://ycpweb.ycp.edu/schedule-of-classes/'
     soup = get_soup(url)
@@ -26,7 +26,6 @@ def main():
                 if len(term.get("value")) == 6]                    
     schedules = [schedule.get("value") for schedule in soup.find_all('option')
                     if len(schedule.get("value"))==1]
-    search_terms = [(term,schedule) for term in terms for schedule in schedules]
     
     queries = [urllib.urlencode(
     
@@ -46,8 +45,6 @@ def main():
                 )
                                 for term in process_url(url)]
                                                     for url in urls]
-    data = []
-    problems = []
     class_info = shelve.open('ycp_classes_1.db')
     counter = itertools.count()
     try:
@@ -55,7 +52,8 @@ def main():
             for url in urlgroup:
                 for course in scrape_page(url):
                     class_info[str(counter.next())] = course
-                    print course
+                    pretty_courses(course)
+                    print "\n"
     finally:
         class_info.close()            
 

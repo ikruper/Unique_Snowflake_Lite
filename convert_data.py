@@ -138,7 +138,7 @@ def convert_future(data_input, schedule):
 
     """
     
-    years = 
+#    years = 
     
     data = (
                 crn,
@@ -157,7 +157,7 @@ def convert_future(data_input, schedule):
     ) = [d for f in data_input] + [year_data,schedule]  
     
     
-    data_output = {
+    '''data_output = {
                       'CRN' : crn,
                       'Course' : course,
                       'Title' : title,
@@ -176,7 +176,7 @@ def convert_future(data_input, schedule):
         
     
     
-    }    
+    }'''    
     
     
 def main():
