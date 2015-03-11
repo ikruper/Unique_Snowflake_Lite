@@ -8,10 +8,10 @@ Created on Tue Jan 13 00:42:08 2015
 
 """
 from clean_data import get_soup, scrape_page, pretty_courses
+import user_input
+import back_up_db
 import urllib
 import shelve
-#from MyDevTools.MyDebug import timeIt
-#from MyDevTools.MyPerformanceTools import memo
 import itertools
 
 def process_url(url):
@@ -58,5 +58,7 @@ def main():
         class_info.close()            
 
     print '', counter.next()-1, "courses!"
+    back_up_db.backup()
+    
 if __name__ == '__main__':
     main()

@@ -10,15 +10,22 @@ import os
 import shutil
 import cPickle
 
-
-ycp_courses = shelve.open('ycp_classes_1.db')
-
-try:
-    with open('backup_db.txt', 'w') as f:
-        contents = str(ycp_courses.__repr__)
-        f.write(contents)
-#        cPickle.dump(contents, 'backup_pickle_db')
-finally:
-    ycp_courses.close()
+def backup():
+    ycp_courses = shelve.open('ycp_classes_1.db')
     
-print "Done"
+    try:
+        with open('backup_db.txt', 'w') as f:
+            contents = str(ycp_courses.__repr__)
+            f.write(contents)
+    finally:
+        ycp_courses.close()
+        
+    print "Done!"
+    
+def main(): #Test to see if working
+    backup()
+    with open('backup_db.txt', 'r') as f:
+        print f.readline()
+    
+if __name__=='__main__':
+    main()
