@@ -9,17 +9,19 @@ Created on Tue Jan 13 00:42:08 2015
 """
 from clean_data import get_soup, scrape_page
 import urllib
-#import shelve
-#import itertools
 from pymongo import MongoClient
 
-def dbtest():
-    pass
 
 def process_url(url):
     soup = get_soup(url)
     terms = [term.get('value') for term in soup.find_all('option')]
     return terms
+
+def dbtest():
+    client = MongoClient()
+    course_catalog = client.course_catalog
+    courses = course_catalog.collection
+    print courses.find_one({"Instructor": "Kraft"})
 
 def main():
     client = MongoClient()
@@ -35,13 +37,13 @@ def main():
                 'Days',
                 'Times',
                 'LOC',
-                'Instructor',
+                'Instructor_ln',
+                'Instructor_fi',
                 'Seats',
                 'Open',
                 'Enrolled',
                 'Dates',
-                'Year',
-                'Times'  ]    
+                'Section']    
     
     url = r'http://ycpweb.ycp.edu/schedule-of-classes/'
     soup = get_soup(url)
@@ -77,8 +79,8 @@ def main():
                 print courses.count()
             
     print '', courses.count(), "courses!"
-    print courses.find_one({"Instructor": "Kaplan"})
 
    
 if __name__ == '__main__':
     main()
+#    dbtest()

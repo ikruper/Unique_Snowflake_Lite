@@ -82,6 +82,7 @@ def scrape_page(url):
     courses = [str(course) for course in soup.find_all('td')]
     segmented_courses = segment_courses(courses)
     processed_courses = clean_list(segmented_courses)
+    processed_courses = split(processed_courses)
     return processed_courses
     
 def segment_courses(courses):
@@ -98,10 +99,15 @@ def segment_courses(courses):
     for p in to_remove:
         new_courses = [re.sub(p, '', course) for course in new_courses]
     new_courses = re.findall(gather_pattern, ' '.join(new_courses))
-    new_courses = [course.split(' ') for course in new_courses]
-#    print new_courses
-    
+    new_courses = [course.split(' ') for course in new_courses]    
     return new_courses
+    
+def split(courses):
+    for course in courses:
+        item = course[1].split('.')
+        course[1] = item[0]
+        course.append(item[1])
+    return courses
     
 def pretty_courses(courses):
     for course in courses:
@@ -110,4 +116,5 @@ def pretty_courses(courses):
 
 if __name__ == '__main__':    
     page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=ENT_03'    
-    pretty_courses(scrape_page(page))
+    course = (scrape_page(page))[6]
+    print course

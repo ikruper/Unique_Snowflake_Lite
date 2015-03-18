@@ -181,7 +181,7 @@ def convert_future(data_input, schedule):
     
     
 def main():
-    print len(example_input)
+#    print len(example_input)
     """time is inp[6]"""
     t = convert_time(example_input[6])
     d = convert_days(example_input[5], t)
