@@ -2,13 +2,14 @@
 """
 Created on Tue Jan 13 02:42:53 2015
 
-@author: Ian
+@author: J
+@contributor: Ian
 """
 
 import shelve
-import os
-import shutil
-import cPickle
+#import os
+#import shutil
+#import cPickle
 
 def backup():
     ycp_courses = shelve.open('ycp_classes_1.db')

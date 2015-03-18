@@ -7,12 +7,14 @@ Created on Tue Jan 13 00:42:08 2015
 
 
 """
-from clean_data import get_soup, scrape_page, pretty_courses
-import user_input
-import back_up_db
+from clean_data import get_soup, scrape_page
 import urllib
-import shelve
-import itertools
+#import shelve
+#import itertools
+from pymongo import MongoClient
+
+def dbtest():
+    pass
 
 def process_url(url):
     soup = get_soup(url)
@@ -20,6 +22,27 @@ def process_url(url):
     return terms
 
 def main():
+    client = MongoClient()
+    course_catalog = client.course_catalog
+    courses = course_catalog.collection
+    course_catalog.drop_collection(courses)
+    
+    headings = ['CRN',
+                'Course',
+                'Title',
+                'Credits',
+                'Type',
+                'Days',
+                'Times',
+                'LOC',
+                'Instructor',
+                'Seats',
+                'Open',
+                'Enrolled',
+                'Dates',
+                'Year',
+                'Times'  ]    
+    
     url = r'http://ycpweb.ycp.edu/schedule-of-classes/'
     soup = get_soup(url)
     terms = [term.get("value") for term in soup.find_all('option')
@@ -45,20 +68,17 @@ def main():
                 )
                                 for term in process_url(url)]
                                                     for url in urls]
-    class_info = shelve.open('ycp_classes_1.db')
-    counter = itertools.count()
-    try:
-        for urlgroup in urls:
-            for url in urlgroup:
-                for course in scrape_page(url):
-                    class_info[str(counter.next())] = course
-                    pretty_courses(course)
-                    print "\n"
-    finally:
-        class_info.close()            
-
-    print '', counter.next()-1, "courses!"
-    back_up_db.backup()
     
+    for urlgroup in urls:
+        for url in urlgroup:
+            for course in scrape_page(url):
+                entry = dict(zip(headings, course))
+                courses.insert(entry)
+                print courses.count()
+            
+    print '', courses.count(), "courses!"
+    print courses.find_one({"Instructor": "Kaplan"})
+
+   
 if __name__ == '__main__':
     main()

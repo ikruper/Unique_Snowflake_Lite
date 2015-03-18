@@ -3,6 +3,7 @@
 Created on Tue Jan 13 03:49:47 2015
 
 @author: J
+@contributor: Ian
 """
 
 from time_converter import convert_time
