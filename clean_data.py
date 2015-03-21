@@ -11,6 +11,7 @@ clean data
 import urllib2
 from bs4 import BeautifulSoup
 import re
+import convert_data
 no_go_list = [chr(i) for i in xrange(100,256)]
 
 patterns = [re.compile(chr(i)) for i in range(127,256)]
@@ -82,7 +83,7 @@ def scrape_page(url):
     courses = [str(course) for course in soup.find_all('td')]
     segmented_courses = segment_courses(courses)
     processed_courses = clean_list(segmented_courses)
-    processed_courses = split(processed_courses)
+    processed_courses = mod_data(processed_courses)
     return processed_courses
     
 def segment_courses(courses):
@@ -102,7 +103,7 @@ def segment_courses(courses):
     new_courses = [course.split(' ') for course in new_courses]    
     return new_courses
     
-def split(courses):
+def mod_data(courses):
     for course in courses:
         item = course[1].split('.')
         course[1] = item[0]
@@ -116,5 +117,5 @@ def pretty_courses(courses):
 
 if __name__ == '__main__':    
     page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=ENT_03'    
-    course = (scrape_page(page))[6]
+    course = (scrape_page(page))[1]
     print course

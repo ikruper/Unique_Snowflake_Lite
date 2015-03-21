@@ -17,17 +17,25 @@ def process_url(url):
     terms = [term.get('value') for term in soup.find_all('option')]
     return terms
 
-def dbtest():
-    client = MongoClient()
-    course_catalog = client.course_catalog
-    courses = course_catalog.collection
-    print courses.find_one({"Instructor": "Kraft"})
+def test_db():
+    uri = 'mongodb://ikruper:unique_snow@ds043991.mongolab.com:43991/uniq_snowflake'
+    client = MongoClient(uri)
+    course_catalog = client.uniq_snowflake
+    courses = course_catalog.courses
+    courses.find_one("Instructor_ln", "Martin")
+    
+def clear_db():
+    uri = 'mongodb://ikruper:unique_snow@ds043991.mongolab.com:43991/uniq_snowflake'
+    client = MongoClient(uri)
+    course_catalog = client.uniq_snowflake
+    courses = course_catalog.courses
+    course_catalog.drop_collection(courses)
 
 def main():
-    client = MongoClient()
-    course_catalog = client.course_catalog
-    courses = course_catalog.collection
-    course_catalog.drop_collection(courses)
+    uri = 'mongodb://ikruper:unique_snow@ds043991.mongolab.com:43991/uniq_snowflake'
+    client = MongoClient(uri)
+    course_catalog = client.uniq_snowflake
+    courses = course_catalog.courses
     
     headings = ['CRN',
                 'Course',
@@ -83,4 +91,5 @@ def main():
    
 if __name__ == '__main__':
     main()
-#    dbtest()
+#    clear_db()
+    test_db()
