@@ -12,6 +12,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import re
 import convert_data
+
 no_go_list = [chr(i) for i in xrange(100,256)]
 
 patterns = [re.compile(chr(i)) for i in range(127,256)]
@@ -108,6 +109,15 @@ def mod_data(courses):
         item = course[1].split('.')
         course[1] = item[0]
         course.append(item[1])
+        try:
+            course[6] = convert_data.convert_data(course)
+            del course[5]
+        except ValueError:
+            course[5] = "TBA"
+            course[6] = "TBA"
+            course[7] = "TBA"
+            
+            
     return courses
     
 def pretty_courses(courses):
@@ -117,5 +127,5 @@ def pretty_courses(courses):
 
 if __name__ == '__main__':    
     page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=ENT_03'    
-    course = (scrape_page(page))[1]
+    course = (scrape_page(page))
     print course

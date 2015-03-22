@@ -31,9 +31,8 @@ example_input = [
 
 def convert_data(data_in):
     times = convert_time(data_in[6])
-    days = data_in[5]
-    return times,days
-
+    return convert_days(data_in[5],times)
+    
 def convert_days(days, times):
     """example dates: "MWF", "TR", "R", etc"""
     conversions = {
@@ -41,10 +40,11 @@ def convert_days(days, times):
                     'T' : 1,
                     'W' : 2,
                     'R' : 3,
-                    'F' : 4
+                    'F' : 4,
+                    'S' : 5
     }
     new_day = []
-    for i in range(5):
+    for i in range(6):
         new_day.append([0,0])
     for day in days:
         new_day[conversions[day]] = times
