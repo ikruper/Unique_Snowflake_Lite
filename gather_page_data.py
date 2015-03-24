@@ -22,7 +22,7 @@ def test_db():
     client = MongoClient(uri)
     course_catalog = client.uniq_snowflake
     courses = course_catalog.courses
-    courses.find_one("Instructor_ln", "Martin")
+    print courses.find_one({"Course": "MAT171"})
     
 def clear_db():
     uri = 'mongodb://ikruper:unique_snow@ds043991.mongolab.com:43991/uniq_snowflake'
@@ -42,7 +42,7 @@ def main():
                 'Title',
                 'Credits',
                 'Type',
-                'Days/Times',
+                'Days_Times',
                 'LOC',
                 'Instructor_ln',
                 'Instructor_fi',
@@ -91,4 +91,4 @@ def main():
 if __name__ == '__main__':
     main()
 #    clear_db()
-    test_db()
+#    test_db()

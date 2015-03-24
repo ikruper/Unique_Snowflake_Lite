@@ -101,7 +101,7 @@ def segment_courses(courses):
     for p in to_remove:
         new_courses = [re.sub(p, '', course) for course in new_courses]
     new_courses = re.findall(gather_pattern, ' '.join(new_courses))
-    new_courses = [course.split(' ') for course in new_courses]    
+    new_courses = [course.split(' ') for course in new_courses]
     return new_courses
     
 def mod_data(courses):
@@ -117,7 +117,6 @@ def mod_data(courses):
             course[6] = "TBA"
             course[7] = "TBA"
             
-            
     return courses
     
 def pretty_courses(courses):
@@ -126,6 +125,5 @@ def pretty_courses(courses):
         
 
 if __name__ == '__main__':    
-    page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=ENT_03'    
-    course = (scrape_page(page))
-    print course
+    page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=WGS_10'    
+    scrape_page(page) 
