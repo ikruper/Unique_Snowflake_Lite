@@ -93,14 +93,18 @@ def segment_courses(courses):
     pattern2= 'valign="top">'
     pattern3 = '<br/>'
     gather_pattern = '[0-9]{5}.*?(?=[0-9]{5})'
-    
+
     to_remove = [re.compile(p) for p in (pattern1,pattern2,pattern3)]
     p = re.compile(isolate_pattern)
     s_courses = ' '.join(courses)
     new_courses = re.findall(p, s_courses)
     for p in to_remove:
         new_courses = [re.sub(p, '', course) for course in new_courses]
+    #It's here at this point
+    print new_courses
     new_courses = re.findall(gather_pattern, ' '.join(new_courses))
+    print new_courses
+    #Not here
     new_courses = [course.split(' ') for course in new_courses]
     return new_courses
     

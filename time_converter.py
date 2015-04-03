@@ -19,6 +19,8 @@ def _convert_time(t):
         t = t.replace('AM', '')
         t = map(int,t.split(':'))
         t1,t2 = t
+        if t1 == 12:
+            t1, t2 = t1 + 12, t2
         t = float(t1) + float(t2)/60.0
         return t
         
@@ -26,7 +28,8 @@ def _convert_time(t):
         t = t.replace('PM', '')
         t = map(int,t.split(':'))
         t1, t2 = t
-        t1, t2 = t1 + 12, t2
+        if t1 != 12:
+            t1, t2 = t1 + 12, t2
         t = float(t1) + float(t2)/60.0
         return t
 
@@ -35,8 +38,8 @@ def main():
 
 
 def test():
-    print convert_time('08:00AM-09:15AM')
-    print convert_time('08:00AM-09:15PM')
+    print convert_time('08:00AM-12:15PM')
+    print convert_time('1:00PM-3:00PM')
     
 
     
