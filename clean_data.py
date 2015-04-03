@@ -101,9 +101,9 @@ def segment_courses(courses):
     for p in to_remove:
         new_courses = [re.sub(p, '', course) for course in new_courses]
     #It's here at this point
-    print new_courses
+#    print new_courses
     new_courses = re.findall(gather_pattern, ' '.join(new_courses))
-    print new_courses
+#    print new_courses
     #Not here
     new_courses = [course.split(' ') for course in new_courses]
     return new_courses
