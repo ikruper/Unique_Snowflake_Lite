@@ -12,6 +12,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import re
 import convert_data
+from pprint import pprint
 
 no_go_list = [chr(i) for i in xrange(100,256)]
 
@@ -92,7 +93,7 @@ def segment_courses(courses):
     pattern1= '<br/>.*</div>'
     pattern2= 'valign="top">'
     pattern3 = '<br/>'
-    gather_pattern = '[0-9]{5}.*?(?=[0-9]{5})'
+    gather_pattern = '[0-9]{5}.*?\-[0-9]{2}/[0-9]{2}/[0-9]{2}'
 
     to_remove = [re.compile(p) for p in (pattern1,pattern2,pattern3)]
     p = re.compile(isolate_pattern)
@@ -100,11 +101,8 @@ def segment_courses(courses):
     new_courses = re.findall(p, s_courses)
     for p in to_remove:
         new_courses = [re.sub(p, '', course) for course in new_courses]
-    #It's here at this point
-#    print new_courses
-    new_courses = re.findall(gather_pattern, ' '.join(new_courses))
-#    print new_courses
-    #Not here
+    new_courses = ' '.join(new_courses)
+    new_courses = re.findall(gather_pattern, new_courses)
     new_courses = [course.split(' ') for course in new_courses]
     return new_courses
     
@@ -130,4 +128,4 @@ def pretty_courses(courses):
 
 if __name__ == '__main__':    
     page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=WGS_10'    
-    scrape_page(page) 
+    print scrape_page(page) 
