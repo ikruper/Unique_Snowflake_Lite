@@ -85,7 +85,7 @@ def main():
                 courses.insert(entry)
                 print courses.count()
             
-    print '', courses.count(), "courses!"
+    print "Done!"
 
    
 if __name__ == '__main__':

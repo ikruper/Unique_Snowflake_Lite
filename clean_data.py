@@ -112,12 +112,10 @@ def mod_data(courses):
         course[1] = item[0]
         course.append(item[1])
         try:
-            course[6] = convert_data.convert_data(course)
-            del course[5]
+            course[5] = (convert_data.convert_data(course))
         except ValueError:
             course[5] = "TBA"
             course[6] = "TBA"
-            course[7] = "TBA"
             
     return courses
     
@@ -127,5 +125,5 @@ def pretty_courses(courses):
         
 
 if __name__ == '__main__':    
-    page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=WGS_10'    
-    print scrape_page(page) 
+    page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=EGR_09'    
+    print(scrape_page(page)) 
