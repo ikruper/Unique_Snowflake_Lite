@@ -83,7 +83,9 @@ def get_soup(url):
 def scrape_page(url):
     soup = get_soup(url)
     courses = [str(course) for course in soup.find_all('td')]
+#    it's together here...
     segmented_courses = segment_courses(courses)
+#    not together here...
     processed_courses = clean_list(segmented_courses)
     processed_courses = mod_data(processed_courses)
     return processed_courses
@@ -103,7 +105,7 @@ def segment_courses(courses):
         new_courses = [re.sub(p, '', course) for course in new_courses]
     new_courses = ' '.join(new_courses)
     new_courses = re.findall(gather_pattern, new_courses)
-    new_courses = [course.split(' ') for course in new_courses]
+    new_courses = [course.split(' ') for course in new_courses] #PROBLEM!
     return new_courses
     
 def mod_data(courses):
@@ -112,10 +114,14 @@ def mod_data(courses):
         course[1] = item[0]
         course.append(item[1])
         try:
-            course[5] = (convert_data.convert_data(course))
+            course.append(convert_data.convert_data(course))
         except ValueError:
             course[5] = "TBA"
             course[6] = "TBA"
+            
+        for item in course:
+            if (str(item).isalpha() and len(item) == 1):
+                course.remove(item)
             
     return courses
     
@@ -125,5 +131,5 @@ def pretty_courses(courses):
         
 
 if __name__ == '__main__':    
-    page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=EGR_09'    
+    page = r'http://ycpweb.ycp.edu/schedule-of-classes/index.html?term=201420&stype=A&dmode=D&dept=RUS_05'    
     print(scrape_page(page)) 

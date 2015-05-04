@@ -42,15 +42,16 @@ def main():
                 'Title',
                 'Credits',
                 'Type',
-                'Days_Times',
-                'LOC',
-                'Instructor_ln',
-                'Instructor_fi',
-                'Seats',
+                'Days',
+                'Times',
+                'Location',
+                'Instructor',
                 'Open',
                 'Enrolled',
+                'Seats',
                 'Dates',
-                'Section']    
+                'Section',
+                'Days_Times']    
     
     url = r'http://ycpweb.ycp.edu/schedule-of-classes/'
     soup = get_soup(url)
