@@ -82,7 +82,13 @@ def main():
     for urlgroup in urls:
         for url in urlgroup:
             for course in scrape_page(url):
-                entry = dict(zip(headings, course))
+                entry = {}
+                for item in course:
+                    try:
+                        entry[headings[course.index(item)]] = item
+                    except IndexError:
+                        break
+                    
                 courses.insert(entry)
                 print courses.count()
             
